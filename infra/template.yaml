@@ -1,8 +1,15 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: Agentic Property Engine - Core Infrastructure
+Description: >
+  Serverless AI Maintenance Agent infrastructure
+
+Parameters:
+  ProjectName:
+    Type: String
+    Description: Name of the project (used for resource naming)
+    Default: agentic-prop
 
 Resources:
-  PropertyUploadsBucket:
+  PropertyImagesBucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: ginya-property-analysis-2026
+      BucketName: !Sub "${ProjectName}-property-images-${AWS::AccountId}"

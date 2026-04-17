@@ -1,1 +1,8 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Agentic Property Engine - Core Infrastructure
 
+Resources:
+  PropertyUploadsBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: ginya-property-analysis-2026

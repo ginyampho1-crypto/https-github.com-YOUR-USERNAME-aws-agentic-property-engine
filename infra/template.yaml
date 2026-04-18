@@ -13,7 +13,5 @@ Resources:
     Type: AWS::S3::Bucket
     Properties:
       BucketName: !Sub "${ProjectName}-property-images-${AWS::AccountId}"
-      git add template.yaml
-      git commit -m "Add Parameters and fix S3 bucket naming"
-      git push
+    
       

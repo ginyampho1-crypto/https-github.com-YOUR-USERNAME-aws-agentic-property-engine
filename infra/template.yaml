@@ -7,11 +7,17 @@ Parameters:
     Type: String
     Description: Name of the project (used for resource naming)
     Default: agentic-prop
-
 Resources:
   PropertyImagesBucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Sub "${ProjectName}-property-images-${AWS::AccountId}"
+      BucketName: !Sub property-images-ai-agent-${AWS::AccountId}-${AWS::Region}
+      Tags:
+        - Key: Project
+          Value: Agentic-Prop
+        - Key: Owner
+          Value: Mpho
+        - Key: Environment
+          Value: Dev
     
       

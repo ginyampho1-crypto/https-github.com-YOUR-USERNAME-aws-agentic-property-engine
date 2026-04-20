@@ -14,6 +14,35 @@ Resources:
           Value: Mpho
         - Key: Environment
           Value: Dev
+            LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: agentic-prop-lambda-role
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: S3ReadAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                Resource: !Sub ${PropertyImagesBucket.Arn}/*
+      Tags:
+        - Key: Project
+          Value: Agentic-Prop
+        - Key: Owner
+          Value: Mpho
+        - Key: Environment
+          Value: Dev
 
 Outputs:
   BucketName:

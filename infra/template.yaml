@@ -2,11 +2,6 @@ AWSTemplateFormatVersion: '2010-09-09'
 Description: >
   Serverless AI Maintenance Agent infrastructure
 
-Parameters:
-  ProjectName:
-    Type: String
-    Description: Name of the project (used for resource naming)
-    Default: agentic-prop
 Resources:
   PropertyImagesBucket:
     Type: AWS::S3::Bucket
@@ -19,7 +14,8 @@ Resources:
           Value: Mpho
         - Key: Environment
           Value: Dev
-          Outputs:
+
+Outputs:
   BucketName:
     Description: Name of the S3 bucket for storing property images
     Value: !Ref PropertyImagesBucket
@@ -31,5 +27,5 @@ Resources:
   Region:
     Description: AWS region where the stack is deployed
     Value: !Ref AWS::Region
-    
+
       

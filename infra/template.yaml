@@ -26,6 +26,36 @@ Resources:
             Principal:
               Service: lambda.amazonaws.com
             Action: sts:AssumeRole
+              AgenticMaintenanceFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: agentic-maintenance-function
+      Runtime: python3.11
+      Handler: index.handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Timeout: 10
+      MemorySize: 128
+      Code:
+        ZipFile: |
+          import json
+          import logging
+
+          logger = logging.getLogger()
+          logger.setLevel(logging.INFO)
+
+          def handler(event, context):
+              logger.info("Agentic maintenance Lambda executed successfully.")
+              return {
+                  "statusCode": 200,
+                  "body": json.dumps("Lambda is alive and logging.")
+              }
+      Tags:
+        - Key: Project
+          Value: Agentic-Prop
+        - Key: Owner
+          Value: Mpho
+        - Key: Environment
+          Value: Dev
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
       Policies:

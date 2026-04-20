@@ -3,21 +3,6 @@ Description: >
   Serverless AI Maintenance Agent infrastructure
 
 Resources:
-  PropertyImagesBucket:
-    Type: AWS::S3::Bucket
-    Properties:
-      BucketName: !Sub property-images-ai-agent-${AWS::AccountId}-${AWS::Region}
-      NotificationConfiguration:
-        LambdaConfigurations:
-          - Event: s3:ObjectCreated:*
-            Function: !GetAtt AgenticMaintenanceFunction.Arn
-      Tags:
-        - Key: Project
-          Value: Agentic-Prop
-        - Key: Owner
-          Value: Mpho
-        - Key: Environment
-          Value: Dev
 
   LambdaExecutionRole:
     Type: AWS::IAM::Role
@@ -40,7 +25,7 @@ Resources:
               - Effect: Allow
                 Action:
                   - s3:GetObject
-                Resource: !Sub ${PropertyImagesBucket.Arn}/*
+                Resource: !Sub arn:aws:s3:::property-images-ai-agent-${AWS::AccountId}-${AWS::Region}/*
       Tags:
         - Key: Project
           Value: Agentic-Prop
@@ -51,6 +36,7 @@ Resources:
 
   AgenticMaintenanceFunction:
     Type: AWS::Lambda::Function
+    DependsOn: LambdaExecutionRole
     Properties:
       FunctionName: agentic-maintenance-function
       Runtime: python3.11
@@ -83,11 +69,29 @@ Resources:
 
   AllowS3InvokeLambda:
     Type: AWS::Lambda::Permission
+    DependsOn: AgenticMaintenanceFunction
     Properties:
       FunctionName: !Ref AgenticMaintenanceFunction
       Action: lambda:InvokeFunction
       Principal: s3.amazonaws.com
-      SourceArn: !GetAtt PropertyImagesBucket.Arn
+      SourceArn: !Sub arn:aws:s3:::property-images-ai-agent-${AWS::AccountId}-${AWS::Region}
+
+  PropertyImagesBucket:
+    Type: AWS::S3::Bucket
+    DependsOn: AllowS3InvokeLambda
+    Properties:
+      BucketName: !Sub property-images-ai-agent-${AWS::AccountId}-${AWS::Region}
+      NotificationConfiguration:
+        LambdaConfigurations:
+          - Event: s3:ObjectCreated:*
+            Function: !GetAtt AgenticMaintenanceFunction.Arn
+      Tags:
+        - Key: Project
+          Value: Agentic-Prop
+        - Key: Owner
+          Value: Mpho
+        - Key: Environment
+          Value: Dev
 
 Outputs:
   BucketName:
@@ -96,7 +100,7 @@ Outputs:
 
   BucketArn:
     Description: ARN of the S3 bucket
-    Value: !GetAtt PropertyImagesBucket.Arn
+    Value: !Sub arn:aws:s3:::property-images-ai-agent-${AWS::AccountId}-${AWS::Region}
 
   Region:
     Description: AWS region where the stack is deployed

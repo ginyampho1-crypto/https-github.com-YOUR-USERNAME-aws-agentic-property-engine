@@ -14,7 +14,8 @@ Resources:
           Value: Mpho
         - Key: Environment
           Value: Dev
-            LambdaExecutionRole:
+
+  LambdaExecutionRole:
     Type: AWS::IAM::Role
     Properties:
       RoleName: agentic-prop-lambda-role

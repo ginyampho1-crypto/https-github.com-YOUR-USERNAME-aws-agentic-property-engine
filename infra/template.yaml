@@ -94,21 +94,13 @@ Resources:
           Value: Dev
 
 Outputs:
-  BucketName:
-    Description: Name of the S3 bucket for storing property images
-    Value: !Ref PropertyImagesBucket
-
-  BucketArn:
-    Description: ARN of the S3 bucket
-    Value: !Sub arn:aws:s3:::property-images-ai-agent-${AWS::AccountId}-${AWS::Region}
-
-  Region:
-    Description: AWS region where the stack is deployed
-    Value: !Ref AWS::Region
-Outputs:
   PropertyImagesBucketName:
     Description: S3 bucket for property image uploads
     Value: !Ref PropertyImagesBucket
+
+  PropertyImagesBucketArn:
+    Description: ARN of the S3 bucket
+    Value: !Sub arn:aws:s3:::property-images-ai-agent-${AWS::AccountId}-${AWS::Region}
 
   AgenticMaintenanceFunctionName:
     Description: Lambda function triggered by S3 uploads
@@ -117,3 +109,7 @@ Outputs:
   AgenticMaintenanceFunctionArn:
     Description: ARN of the Lambda function
     Value: !GetAtt AgenticMaintenanceFunction.Arn
+
+  DeploymentRegion:
+    Description: AWS region where the stack is deployed
+    Value: !Ref AWS::Region

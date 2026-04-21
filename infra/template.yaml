@@ -105,3 +105,15 @@ Outputs:
   Region:
     Description: AWS region where the stack is deployed
     Value: !Ref AWS::Region
+Outputs:
+  PropertyImagesBucketName:
+    Description: S3 bucket for property image uploads
+    Value: !Ref PropertyImagesBucket
+
+  AgenticMaintenanceFunctionName:
+    Description: Lambda function triggered by S3 uploads
+    Value: !Ref AgenticMaintenanceFunction
+
+  AgenticMaintenanceFunctionArn:
+    Description: ARN of the Lambda function
+    Value: !GetAtt AgenticMaintenanceFunction.Arn
